@@ -16,7 +16,14 @@ import numpy as np
 import evaluation
 from sklearn.cross_validation import KFold
 
+from sklearn.feature_selection import RFE
+from sklearn.feature_selection import SelectKBest
+
 from datahandler import DataHandler
+
+def f_regression(X,Y):
+   import sklearn
+   return sklearn.feature_selection.f_regression(X,Y,center=False) #center=True (the default) would not work ("ValueError: center=True only allowed for dense data") but should presumably work in general
 
 if __name__ == '__main__':
     [X, y] = DataHandler.getTrainingData()
@@ -47,6 +54,8 @@ if __name__ == '__main__':
         yTestRegistered = yRegistered[test]
     
         clfCasual = ExtraTreesRegressor()
+        #selectorCasual = SelectKBest(score_func=f_regression,k=20)
+        #print [1+zero_based_index for zero_based_index in list(selectorCasual.get_support(indices=True))]
         clfRegistered = ExtraTreesRegressor()
         modelCasualETR = clfCasual.fit(XTrain, yTrainCasual)
         modelRegisteredETR = clfRegistered.fit(XTrain, yTrainRegistered)
