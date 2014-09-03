@@ -21,9 +21,9 @@ from sklearn.feature_selection import SelectKBest
 
 from datahandler import DataHandler
 
-def f_regression(X,Y):
+def f_regression(X, Y):
    import sklearn
-   return sklearn.feature_selection.f_regression(X,Y,center=False) #center=True (the default) would not work ("ValueError: center=True only allowed for dense data") but should presumably work in general
+   return sklearn.feature_selection.f_regression(X, Y, center=False)  # center=True (the default) would not work ("ValueError: center=True only allowed for dense data") but should presumably work in general
 
 if __name__ == '__main__':
     [X, y] = DataHandler.getTrainingData()
@@ -54,8 +54,8 @@ if __name__ == '__main__':
         yTestRegistered = yRegistered[test]
     
         clfCasual = ExtraTreesRegressor()
-        #selectorCasual = SelectKBest(score_func=f_regression,k=20)
-        #print [1+zero_based_index for zero_based_index in list(selectorCasual.get_support(indices=True))]
+        # selectorCasual = SelectKBest(score_func=f_regression,k=20)
+        # print [1+zero_based_index for zero_based_index in list(selectorCasual.get_support(indices=True))]
         clfRegistered = ExtraTreesRegressor()
         modelCasualETR = clfCasual.fit(XTrain, yTrainCasual)
         modelRegisteredETR = clfRegistered.fit(XTrain, yTrainRegistered)
@@ -97,11 +97,11 @@ if __name__ == '__main__':
             mdlABRCasual = modelCasualABR
             mdlABRRegistered = modelRegisteredABR
         
-    print "ExtraTreesRegression Average Scores for total, casual, registered: %f, %f, %f" %(np.mean(scoresTotalExtraTreesRegression), np.mean(scoresCasualExtraTreesRegression), np.mean(scoresRegisteredExtraTreesRegression))
+    print "ExtraTreesRegression Average Scores for total, casual, registered: %f, %f, %f" % (np.mean(scoresTotalExtraTreesRegression), np.mean(scoresCasualExtraTreesRegression), np.mean(scoresRegisteredExtraTreesRegression))
     print "Best models score: %f" % min(scoresTotalExtraTreesRegression)
     
-    print "Random forest Average Scores for total, casual, registered: %f, %f, %f" %(np.mean(scoresTotalABR), np.mean(scoresCasualABR), np.mean(scoresRegisteredABR))
+    print "Random forest Average Scores for total, casual, registered: %f, %f, %f" % (np.mean(scoresTotalABR), np.mean(scoresCasualABR), np.mean(scoresRegisteredABR))
     print "Best models score: %f" % min(scoresTotalABR)
     
-    #DataHandler.storeResults(mdlExtraTreesRegressorCasual, mdlExtraTreesRegressorRegistered, 'predictionsExtraTreesRegressor.csv')
+    # DataHandler.storeResults(mdlExtraTreesRegressorCasual, mdlExtraTreesRegressorRegistered, 'predictionsExtraTreesRegressor.csv')
     

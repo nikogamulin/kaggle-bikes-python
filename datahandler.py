@@ -4,7 +4,7 @@ Created on Aug 9, 2014
 @author: GamulinN
 '''
 import csv
-#import pandas as pd
+# import pandas as pd
 from collections import defaultdict
 from dateutil.parser import parse
 from sklearn.ensemble import ExtraTreesRegressor
@@ -22,28 +22,28 @@ class DataHandler(object):
     
     @staticmethod
     def getTrainingData():
-        columns = defaultdict(list) # each value in each column is appended to a list
+        columns = defaultdict(list)  # each value in each column is appended to a list
 
         with open(trainingDataFile) as f:
-            reader = csv.DictReader(f, delimiter = ",") # read rows into a dictionary format
-            for row in reader: # read a row as {column1: value1, column2: value2,...}
-                for (k,v) in row.items(): # go over each column name and value 
-                    columns[k].append(v) # append the value into the appropriate list
+            reader = csv.DictReader(f, delimiter=",")  # read rows into a dictionary format
+            for row in reader:  # read a row as {column1: value1, column2: value2,...}
+                for (k, v) in row.items():  # go over each column name and value 
+                    columns[k].append(v)  # append the value into the appropriate list
                                          # based on column name 
         X = [columns['datetime'], columns['season'], columns['holiday'], columns['workingday'], columns['weather'], columns['temp'], columns['atemp'], columns['humidity'], columns['windspeed']]
-        #y = [[np.float(i) for i in columns['casual']], [np.float(i) for i in columns['registered']] ]
+        # y = [[np.float(i) for i in columns['casual']], [np.float(i) for i in columns['registered']] ]
         y = [np.asarray([np.float(i) for i in columns['casual']]), np.asarray([np.float(i) for i in columns['registered']])]
         return [X, y]
     
     @staticmethod
     def parseResultsFile():
-        columns = defaultdict(list) # each value in each column is appended to a list
+        columns = defaultdict(list)  # each value in each column is appended to a list
 
         with open(testDataFile) as f:
-            reader = csv.DictReader(f, delimiter = ",") # read rows into a dictionary format
-            for row in reader: # read a row as {column1: value1, column2: value2,...}
-                for (k,v) in row.items(): # go over each column name and value 
-                    columns[k].append(v) # append the value into the appropriate list
+            reader = csv.DictReader(f, delimiter=",")  # read rows into a dictionary format
+            for row in reader:  # read a row as {column1: value1, column2: value2,...}
+                for (k, v) in row.items():  # go over each column name and value 
+                    columns[k].append(v)  # append the value into the appropriate list
                                          # based on column name 
         X = [columns['datetime'], columns['season'], columns['holiday'], columns['workingday'], columns['weather'], columns['temp'], columns['atemp'], columns['humidity'], columns['windspeed']]
         return X
@@ -56,9 +56,9 @@ class DataHandler(object):
             currentDateTime = parse(X[0][i])
 
             if currentDateTime.year == 2011:
-                currentRow.extend([1,0])
+                currentRow.extend([1, 0])
             else:
-                currentRow.extend([0,1])
+                currentRow.extend([0, 1])
                 
             currentMonth = [0] * 12
             currentMonth[currentDateTime.month - 1] = 1
@@ -75,7 +75,7 @@ class DataHandler(object):
             s = int(X[1][i])
             currentSeason = [0] * 4
             currentSeason[s - 1] = 1
-            #seasons.append(currentSeason)
+            # seasons.append(currentSeason)
             currentRow.extend(currentSeason)
             
             holiday = int(X[2][i])
@@ -93,12 +93,12 @@ class DataHandler(object):
             currentRow.append(np.float(X[7][i]))
             currentRow.append(np.float(X[8][i]))
             
-            #ExtraTreesRegression: 0.334495, RandomForests = 0.391659
-            #ExtraTreesRegression Average Scores for total, casual, registered: 0.494197, 0.809773, 0.442037
-            #Random forest Average Scores for total, casual, registered: 0.601015, 1.713724, 0.570361
+            # ExtraTreesRegression: 0.334495, RandomForests = 0.391659
+            # ExtraTreesRegression Average Scores for total, casual, registered: 0.494197, 0.809773, 0.442037
+            # Random forest Average Scores for total, casual, registered: 0.601015, 1.713724, 0.570361
             
-            #additional efatures
-            #afternoon, morning, evening,night, mistEightOClock,clearSeventeenOClock, clearEighteenOClock
+            # additional efatures
+            # afternoon, morning, evening,night, mistEightOClock,clearSeventeenOClock, clearEighteenOClock
             '''
             timeOfDay = [0] * 4
             if currentHour in [0,1,2,3,4,5,6]:
@@ -131,8 +131,8 @@ class DataHandler(object):
                 clearEighteenOClock = 0
             
             currentRow.append(clearEighteenOClock)
-            #ExtraTreesRegression Average Scores for total, casual, registered: 0.494197, 0.809773, 0.442037
-            #Random forest Average Scores for total, casual, registered: 0.601015, 1.713724, 0.570361
+            # ExtraTreesRegression Average Scores for total, casual, registered: 0.494197, 0.809773, 0.442037
+            # Random forest Average Scores for total, casual, registered: 0.601015, 1.713724, 0.570361
             
             
             rows.append(currentRow)
@@ -164,7 +164,7 @@ class DataHandler(object):
         
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     [X, y] = DataHandler.getTrainingData()
     features = DataHandler.getFeatures(X)
     clf = ExtraTreesRegressor()

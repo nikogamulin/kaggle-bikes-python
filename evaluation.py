@@ -26,7 +26,7 @@ def ae(actual, predicted):
             The absolute error between actual and predicted
 
     """
-    return np.abs(np.array(actual)-np.array(predicted))
+    return np.abs(np.array(actual) - np.array(predicted))
 
 def ce(actual, predicted):
     """
@@ -47,7 +47,7 @@ def ce(actual, predicted):
             The classification error between actual and predicted
 
     """
-    return (sum([1.0 for x,y in zip(actual,predicted) if x != y]) /
+    return (sum([1.0 for x, y in zip(actual, predicted) if x != y]) / 
             len(actual))
 
 def mae(actual, predicted):
@@ -180,7 +180,7 @@ def se(actual, predicted):
             The squared error between actual and predicted
 
     """
-    return np.power(np.array(actual)-np.array(predicted), 2)
+    return np.power(np.array(actual) - np.array(predicted), 2)
 
 def sle(actual, predicted):
     """
@@ -202,8 +202,8 @@ def sle(actual, predicted):
             The squared log error between actual and predicted
 
     """
-    return (np.power(np.log(np.array(actual)+1) - 
-            np.log(np.array(predicted)+1), 2))
+    return (np.power(np.log(np.array(actual) + 1) - 
+            np.log(np.array(predicted) + 1), 2))
 
 def ll(actual, predicted):
     """
@@ -228,10 +228,10 @@ def ll(actual, predicted):
     actual = np.array(actual)
     predicted = np.array(predicted)
     err = np.seterr(all='ignore')
-    score = -(actual*np.log(predicted)+(1-actual)*np.log(1-predicted))
+    score = -(actual * np.log(predicted) + (1 - actual) * np.log(1 - predicted))
     np.seterr(divide=err['divide'], over=err['over'],
               under=err['under'], invalid=err['invalid'])
-    if type(score)==np.ndarray:
+    if type(score) == np.ndarray:
         score[np.isnan(score)] = 0
     else:
         if np.isnan(score):
